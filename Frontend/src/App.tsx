@@ -17,6 +17,8 @@ import Privacy from "./pages/Privacy";
 import CodeOfConduct from "./pages/CodeOfConduct";
 import TermsOfService from "./pages/TermsOfService";
 import CountdownGate from "./components/Countdown";
+import Login from "./pages/Login";
+import SignUp from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,8 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/codeofconduct" element={<CodeOfConduct />} />
           <Route path="/termsofservice" element={<TermsOfService />} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/Signup" element={<SignUp/>} />
 
           {/* Add any other custom routes here */}
           

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu} from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import { Discord , Github , Cross} from "./icons";
+import  Login  from "../pages/Login"
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const navigate = useNavigate();
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
@@ -64,7 +65,7 @@ const Header = () => {
                 <Discord className="w-4 h-4 mr-2" /> Discord
               </a>
             </Button>
-
+            
             <Button
               asChild
               variant="outline"
@@ -79,6 +80,15 @@ const Header = () => {
                 <Github className="w-4 h-4 mr-2" />
                 GitHub
               </a>
+            </Button>
+           
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-neon-green hover:bg-neon-green/90 shadow-neon"
+              onClick={() => navigate("/login")}
+            >
+              Login
             </Button>
           </div>
 
