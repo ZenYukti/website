@@ -7,7 +7,7 @@ import { Users } from "@/components/icons";
 const About = () => {
   const timeline = [
       {
-        "phase": "Concept & Foundation",
+        "phase": "Concept and Foundation",
         "period": "May-June 2025",
         "description": "Initial ideation, defining core values, and outlining community structure.",
         "status": "completed"
@@ -25,7 +25,7 @@ const About = () => {
         "status": "upcoming"
       },
       {
-        "phase": "Growth & Engagement Initiatives",
+        "phase": "Growth and Engagement Initiatives",
         "period": "Q4 2025",
         "description": "Implementing programs, events, and resources to foster active participation and growth.",
         "status": "upcoming"
