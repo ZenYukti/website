@@ -20,6 +20,12 @@ import {
 import { useEffect, useState } from "react";
 import EventCard from "@/components/EventCard";
 
+const carouselImages = [
+  "zenyukti.github.io/public/assets/anvita.jpeg",
+  "/firstMeetUpImages/community.jpg",
+  "/firstMeetUpImages/community.jpg",
+  "/firstMeetUpImages/community.jpg",
+];
 
 const Community = () => {
   const socialPlatforms = [
@@ -104,10 +110,20 @@ const Community = () => {
     },
   ];
 
+  // Carousel state
+  const [current, setCurrent] = useState(0);
+
+  // Auto-slide effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % carouselImages.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
       <main className="pt-20">
         {/* Hero Section */}
         <section className="py-20 px-4">
@@ -152,6 +168,59 @@ const Community = () => {
                   WhatsApp Group
                 </a>
               </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Carousel Section */}
+        <section className="py-10 px-4">
+          <div className="container mx-auto flex flex-col items-center">
+            <div className="relative w-full max-w-3xl h-80 rounded-xl overflow-hidden shadow-lg border border-border">
+              {carouselImages.map((src, idx) => (
+                <img
+                  key={idx}
+                  src={src}
+                  alt={`Community ${idx + 1}`}
+                  className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 rounded-xl ${
+                    idx === current ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
+                />
+              ))}
+              {/* Navigation buttons */}
+              <button
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 rounded-full p-4 text-3xl text-primary cursor-pointer transition
+    hover:bg-primary hover:text-white hover:scale-110 hover:shadow-lg"
+                onClick={() =>
+                  setCurrent((prev) =>
+                    prev === 0 ? carouselImages.length - 1 : prev - 1
+                  )
+                }
+              >
+                &#8592;
+              </button>
+              <button
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 rounded-full p-4 text-3xl text-primary cursor-pointer transition
+    hover:bg-primary hover:text-white hover:scale-110 hover:shadow-lg"
+                onClick={() =>
+                  setCurrent((prev) =>
+                    prev === carouselImages.length - 1 ? 0 : prev + 1
+                  )
+                }
+              >
+                &#8594;
+              </button>
+              {/* Dots */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {carouselImages.map((_, idx) => (
+                  <span
+                    key={idx}
+                    className={`w-3 h-3 rounded-full ${
+                      idx === current ? "bg-primary" : "bg-muted-foreground"
+                    } cursor-pointer`}
+                    onClick={() => setCurrent(idx)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -269,7 +338,7 @@ const Community = () => {
         </section>
         <ScrollToHash />
         {/* Events Section */}
-        <section id="events"className="py-20 px-4">
+        <section id="events" className="py-20 px-4">
           <div className="container mx-auto text-center">
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
               Upcoming Events
