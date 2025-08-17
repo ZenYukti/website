@@ -1,3 +1,5 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import ScrollToHash from "@/components/ScrollToHash";
 import {
   Card,
@@ -18,6 +20,14 @@ import {
 import { useEffect, useState } from "react";
 import EventCard from "@/components/EventCard";
 
+const carouselImages = [
+  "src/assets/teamImages/offline_meetup.jpg",
+  "src/assets/teamImages/online_meetup.png",
+  "src/assets/teamImages/candid_shot_1.jpg",
+  "src/assets/teamImages/candid_shot_2.jpg",
+  "src/assets/teamImages/team_side_profile.jpg",
+  "src/assets/teamImages/team_shot.jpg",
+];
 
 const Community = () => {
   const socialPlatforms = [
@@ -102,8 +112,20 @@ const Community = () => {
     },
   ];
 
+  // Carousel state
+  const [current, setCurrent] = useState(0);
+
+  // Auto-slide effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % carouselImages.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
+      <Header />
       <main className="pt-20">
         {/* Hero Section */}
         <section className="py-20 px-4">
@@ -148,6 +170,64 @@ const Community = () => {
                   WhatsApp Group
                 </a>
               </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Carousel Section */}
+        <section className="py-10 px-4">
+          <div className="container mx-auto flex flex-col items-center">
+            <div className="relative w-full max-w-xl h-64 sm:h-72 md:h-80 lg:h-96 rounded-xl overflow-hidden shadow-xl border border-border flex items-center justify-center">
+              {carouselImages.map((src, idx) => (
+                <img
+                  key={idx}
+                  src={src}
+                  alt={`Community ${idx + 1}`}
+                  className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-700 rounded-xl ${
+                    idx === current ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
+                  style={{
+                    aspectRatio: '16/9',
+                    minHeight: '180px',
+                    maxHeight: '100%',
+                  }}
+                />
+              ))}
+              {/* Navigation arrows */}
+              <button
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-card/50 rounded-full p-2 sm:p-4 text-xl sm:text-2xl text-primary cursor-pointer transition hover:bg-primary hover:text-white hover:scale-110 hover:shadow-xl z-20"
+                onClick={() =>
+                  setCurrent((prev) =>
+                    prev === 0 ? carouselImages.length - 1 : prev - 1
+                  )
+                }
+                aria-label="Previous image"
+              >
+                &#8592;
+              </button>
+              <button
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-card/50 rounded-full p-2 sm:p-4 text-xl sm:text-2xl text-primary cursor-pointer transition hover:bg-primary hover:text-white hover:scale-110 hover:shadow-xl z-20"
+                onClick={() =>
+                  setCurrent((prev) =>
+                    prev === carouselImages.length - 1 ? 0 : prev + 1
+                  )
+                }
+                aria-label="Next image"
+              >
+                &#8594;
+              </button>
+              {/* Dots */}
+              <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-20">
+                {carouselImages.map((_, idx) => (
+                  <span
+                    key={idx}
+                    className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full border-2 border-primary ${
+                      idx === current ? "bg-primary" : "bg-muted-foreground"
+                    } cursor-pointer transition-all duration-300`}
+                    onClick={() => setCurrent(idx)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -265,7 +345,7 @@ const Community = () => {
         </section>
         <ScrollToHash />
         {/* Events Section */}
-        <section id="events"className="py-20 px-4">
+        <section id="events" className="py-20 px-4">
           <div className="container mx-auto text-center">
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
               Upcoming Events
@@ -303,6 +383,8 @@ const Community = () => {
           </div>
         </section>
       </main>
+
+      <Footer />
     </div>
   );
 };
